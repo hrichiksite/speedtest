@@ -6,12 +6,13 @@
 <meta charset="UTF-8" />
 <script type="text/javascript" src="speedtest.js"></script>
 <script type="text/javascript">
+    <link rel="stylesheet" href="//raw.githubusercontent.com/saurabhdaware/text-to-handwriting/master/css/features.css" />
 function I(i){return document.getElementById(i);}
 
 //LIST OF TEST SERVERS. See documentation for details if needed
 var SPEEDTEST_SERVERS=[
 	{	
-		name:"Speedtest Server (Helsinki, Finland)", //user friendly name for the server
+		name:"Server (Helsinki, Finland, Earth)", //user friendly name for the server
 		server:"//fi.openspeed.org/", //URL to the server. // at the beginning will be replaced with http:// or https:// automatically
 		dlURL:"garbage.php",  //path to download test on this server (garbage.php or replacement)
 		ulURL:"empty.php",  //path to upload test on this server (empty.php or replacement)
@@ -389,6 +390,26 @@ function initUI(){
 <title>LibreSpeed Example</title>
 </head>
 <body onload="initServers()">
+	      <button
+        aria-label="Activate Dark Mode"
+        title="Toggle Dark Mode"
+        aria-pressed="false"
+        onclick="toggleTheme(this)"
+        class="dark-mode-toggle"
+      >
+        <span class="sun">
+          <img
+            alt="sun icon that represents light mode"
+            width="35px"
+            src="https://writeforme.ga/images/sun.svg"
+        /></span>
+        <span class="moon"
+          ><img
+            alt="moon icon to represent dark mode "
+            width="25px"
+            src="https://writeforme.ga/images/moon.svg"
+        /></span>
+      </button>
 <h1>Test Your Speed</h1>
 <div id="loading" class="visible">
 	<p id="message"><span class="loadCircle"></span>Selecting a server...</p>
@@ -508,5 +529,36 @@ function initUI(){
         ></path>
       </svg>
     </a>
+   <script>
+      function toggleTheme(toggleButton) {
+        if (document.body.classList.contains('dark')) {
+          document.body.classList.add('fade-in-light');
+          document.body.classList.remove('dark');
+          document.body.classList.remove('fade-in-dark');
+          window.localStorage.setItem('prefers-theme', 'light');
+          if (toggleButton) {
+            toggleButton.setAttribute('aria-pressed', false);
+            toggleButton.setAttribute('aria-label', 'Activate Dark Mode');
+          }
+        } else {
+          document.body.classList.add('fade-in-dark');
+          document.body.classList.add('dark');
+          document.body.classList.remove('fade-in-light');
+          window.localStorage.setItem('prefers-theme', 'dark');
+          if (toggleButton) {
+            toggleButton.setAttribute('aria-pressed', true);
+            toggleButton.setAttribute('aria-label', 'Activate Light Mode');
+          }
+        }
+      }
+
+      const localPreference = window.localStorage.getItem('prefers-theme');
+      if (localPreference) {
+        if (localPreference === 'light') document.body.classList.remove('dark');
+        else document.body.classList.add('dark');
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+    </script>
 </body>
 </html>
